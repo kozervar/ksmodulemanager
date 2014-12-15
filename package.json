@@ -1,0 +1,28 @@
+{
+    "main": "index.html",
+    "name": "nw-java-process",
+    "description": "Embedding Java process inside node-webkit",
+    "version": "0.1.0",
+    "keywords": [ "demo", "node-webkit" ],
+    "authors": [
+        "Marcin Kozaczyk <kozervar@gmail.com>"
+    ],
+    "window": {
+        "title": "node-webkit demo",
+        "icon": "assets/icon.png",
+        "toolbar": false,
+        "frame": true,
+        "width": 800,
+        "height": 600,
+        "position": "center",
+        "min_width": 800,
+        "min_height": 600
+    },
+    "webkit": {
+        "plugin": true
+    },
+    "main": "./html/index.html",
+    "dependencies": {
+        "dateformat": "*"
+    }
+}
