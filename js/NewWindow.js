@@ -11,7 +11,8 @@ module.exports.openNewWindow = function(toOpen, options){
                 "position": "center",
                 "focus": true,
                 "toolbar": false,
-                "frame": true
+                "frame": true,
+                "show_in_taskbar" : false
             };
         }
         return window.open(toOpen, opt);

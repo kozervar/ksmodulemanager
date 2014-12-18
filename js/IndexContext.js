@@ -29,6 +29,6 @@ $(document).ready(function () {
 
     // click events
     $( "#editor" ).click(function() {
-        newWindow.openNewWindow('editor.html');
+        var editorWindow = newWindow.openNewWindow('editor.html');
     });
 });
