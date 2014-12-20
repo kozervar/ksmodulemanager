@@ -7,12 +7,13 @@ var module = angular.module('app.favourite', [
 
 module
 
-    .controller('FavouriteCtrl', function FavouriteCtrl($scope, $http, CONST) {
+    .controller('FavouriteCtrl', function FavouriteCtrl($scope, $http, CONST, fileDialog, $timeout) {
 
         console.log("Favourite ctrl");
         var helper = new DBHelper(storedb);
 
         $scope.results = [];
+        $scope.downloadDIR = '';
 
         $scope.refresh = function () {
             try {
@@ -25,6 +26,16 @@ module
                 else
                     console.log(err);
             }
+            try {
+                helper.get('settings', {prop: 'download_dir'}, function (data) {
+                    $scope.downloadDIR = data[0].value;
+                }, function (err) {
+                    console.log(err);
+                });
+            }
+            catch (err) {
+                console.log(err);
+            }
         };
 
 
@@ -36,6 +47,54 @@ module
                 console.log(err);
             })
         };
+
+        $scope.changeDownloadDIR = function () {
+
+            var createDownloadDir = function(dir){
+                helper.create('settings', { prop: 'download_dir', value: dir}, function (data) {
+                    console.log('Download DIR saved!');
+                    $timeout(function () {
+                        $scope.downloadDIR = dir;
+                    });
+                }, function (error) {
+                    console.log(error);
+                })
+            };
+
+            var options = { workDirectory: (angular.isString($scope.downloadDIR) && $scope.downloadDIR.length > 0 ? $scope.downloadDIR : __dirname )};
+            fileDialog.openDir(function (downloadDIR) {
+                helper.get('settings', {prop: 'download_dir'}, function (data) {
+                    console.log("Go", data);
+                    if(data.length === 0) { // if settings where cleaned up
+                        createDownloadDir(downloadDIR);
+                        return;
+                    }
+                    helper.update('settings', { prop: 'download_dir' }, { '$set': { value: downloadDIR} }, function (data) {
+                        console.log('Download DIR updated!');
+                        $timeout(function () {
+                            $scope.downloadDIR = downloadDIR;
+                        });
+                    }, function (error) {
+                        console.log(error);
+                    })
+
+                }, function (error) {
+                    createDownloadDir(downloadDIR);
+                })
+            }, options);
+        };
+
+        $scope.download = function (fileName) {
+            fileDownloader(fileName, $scope.downloadDIR, function(err, data){
+                if(err)
+                    console.error(err);
+                console.log("File " + data.fileName + " was saved into " + data.path);
+            });
+        };
+
+//        helper.remove('settings', { prop: 'download_dir' }, function () {
+//        }, function () {
+//        });
 
         // call
         $scope.refresh();

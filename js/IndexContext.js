@@ -8,6 +8,12 @@ var http = require('https');
 var querystring = require('querystring');
 var gui = require('nw.gui');
 var DBHelper = require('../js/DBHelper');
+var path = require('path');
+
+var fileDownloader = require('../js/FileDownloader');
+
+var execPath = path.dirname( process.execPath );
+var __dirname = execPath;
 
 $(document).ready(function () {
     var title = document.title;

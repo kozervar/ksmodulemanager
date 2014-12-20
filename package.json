@@ -23,6 +23,9 @@
     },
     "main": "./html/index.html",
     "dependencies": {
-        "dateformat": "*"
+        "dateformat": "*",
+        "request" : "*",
+        "puid" : "*",
+        "bluebird" : "*"
     }
 }
