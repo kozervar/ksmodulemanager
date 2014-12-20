@@ -11,6 +11,8 @@
         "underscore": "~1.6.0",
         "font-awesome": "~4.x",
         "ace-builds": "*",
-        "angular" : "1.2.*"
+        "storedb" : "0.1.2",
+        "angular" : "1.2.*",
+        "angular-ui-router": "~0.2.x"
     }
 }

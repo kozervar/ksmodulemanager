@@ -7,6 +7,7 @@ var newWindow = require('../js/NewWindow');
 var http = require('https');
 var querystring = require('querystring');
 var gui = require('nw.gui');
+var DBHelper = require('../js/DBHelper');
 
 $(document).ready(function () {
     var title = document.title;
@@ -86,4 +87,5 @@ $(document).ready(function () {
 //            $('#resp').text(con);
 //        });
 //    });
+
 });

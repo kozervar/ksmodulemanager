@@ -1,0 +1,58 @@
+<div class="row" ng-controller="SearchCtrl">
+    <div class="col-sm-12">
+        <hr>
+        <div class="row">
+            <div class="col-sm-12 form-inline">
+                <form>
+                    <div class="form-group">
+                        <label for="query">Query: </label>
+                        <input class="form-control" type="text" id="query" ng-model="query">
+                        <button type="submit" class="btn btn-info btn-md" id="search" ng-click="search()">Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="row col-sm-12">
+        <div class="form-group">
+            <p>Results: {{results.length}}</p>
+        </div>
+        <div class="form-group">
+
+            <div class="mod-container">
+                <div class="mod" ng-repeat="r in results">
+                    <div class="row">
+                        <div class="col-sm-9 name">
+                            {{r.name}}
+                        </div>
+                        <div class="col-sm-3 ksp text-right">
+                            {{r.versions[0].ksp_version}}
+                        </div>
+                    </div>
+                    <div class="space"></div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-12">Version: {{r.versions[0].friendly_version}}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 buttons">
+                            <div class="btn-group">
+                                <a href="https://kerbalstuff.com{{r.versions[0].download_path}}"
+                                   class="btn btn-warning btn-sm"><i class="fa fa-floppy-o"></i></a>
+                                <a ng-click="openUrl(r)"
+                                   class="btn btn-info btn-sm" ng-if="r.url"><i class="fa fa-link"></i></a>
+                                <a ng-click="openWebsite(r)"
+                                   class="btn btn-info btn-sm" ng-if="r.website"><i class="fa fa-code"></i></a>
+                                <a ng-click="addToFavourites(r)"
+                                   class="btn btn-danger btn-sm"><i class="fa fa-plus-square"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

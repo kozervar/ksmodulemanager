@@ -5,53 +5,38 @@
 var gui = require('nw.gui');
 
 var app = angular.module('app', [
+    'ui.router',
+    'app.search',
+    'app.favourite'
 ]);
 
-app.config(function () {
-    console.log("Configuring");
-})
-
-    .controller('AppCtrl', function AppCtrl() {
-
+app
+    .constant('CONST', {
+        KS_URL : 'https://kerbalstuff.com',
+        COLLECTION : {
+            FAVOURITE : 'favourite'
+        }
     })
 
-    .controller('SearchCtrl', function SearchCtrl($scope, $http) {
+    .config(function ($stateProvider, $urlRouterProvider) {
+        console.log("Configuring");
 
-        console.log("Search ctrl");
-        console.log(process.env.HOME);
+        $urlRouterProvider.otherwise("/search");
 
-        $scope.query = "FAR";
-        $scope.results = [];
+        $stateProvider
+            .state('search', {
+                url: "/search",
+                templateUrl: "partials/search.tpl.html"
+            })
+            .state('favourite', {
+                url: "/favourite",
+                templateUrl: "partials/favourite.tpl.html"
+            })
+        ;
+    })
 
-        $scope.search = function(){
-            console.log('Searching...');
-            var txt = encodeURI($scope.query);
-            var url = 'https://kerbalstuff.com/api/search/mod?query=' + txt;
-            $http.get(url).success(function(data){
-                console.log('Success!');
-                $scope.results = data;
-            }).error(function(data){
-                console.log('Error!');
-            });
-        };
-        
-        $scope.getCurrentVersion = function(mod) {
-            for (var i = 0; i < mod.versions.length; i++) {
-                var version = mod.versions[i];
-                return version.ksp_version;z
-            }
-        };
-
-        $scope.openUrl = function(mod) {
-            gui.Shell.openExternal('https://kerbalstuff.com' + mod.url);
-        };
-
-        $scope.openWebsite = function(mod) {
-            gui.Shell.openExternal(mod.website);
-        };
-
-        $scope.search();
-
+    .controller('AppCtrl', function AppCtrl() {
+        console.log('App Ctrl');
     })
 
 ;
