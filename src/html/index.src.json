@@ -1,0 +1,12 @@
+{
+    "name" : "index",
+    "desc" : "Index file for application",
+    "destination" : "<%= build_dir %>",
+    "scripts" : {
+        "context" : ["src/context/index.context.js"],
+        "application" : ["src/**/*.js", "!src/**/*.context.js"]
+    },
+    "styles" : {
+        "assets" : ["<%= build_dir %>/assets/*.css"]
+    }
+}
