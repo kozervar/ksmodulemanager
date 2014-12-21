@@ -6,6 +6,7 @@ var gui = require('nw.gui');
 
 var app = angular.module('app', [
     'ui.router',
+    'ui.bootstrap',
     'file-dialog',
     'app.search',
     'app.favourite'
