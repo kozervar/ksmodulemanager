@@ -3,11 +3,23 @@
     "desc" : "Index file for application",
     "destination" : "<%= build_dir %>",
     "scripts" : {
-        "context" : ["src/context/index.context.js"],
-        "application" : ["src/**/*.js", "!src/**/*.context.js"],
-        "vendor" : "<%= vendor_files.js %>"
+        "context" : {
+            "cwd" : "<%= build_dir %>",
+            "files" : ["src/context/index.context.js"]
+        },
+        "application" : {
+            "cwd" : "<%= build_dir %>",
+            "files" : ["<%= app_files.js %>", "app-templates.js", "!src/context/index.context.js"]
+        },
+        "vendor" : {
+            "cwd" : "<%= build_dir %>",
+            "files" : "<%= vendor_files.js %>"
+        }
     },
     "styles" : {
-        "assets" : ["<%= build_dir %>/assets/*.css"]
+        "assets" : {
+            "cwd" : "<%= build_dir %>",
+            "files" : ["assets/*.css"]
+        }
     }
 }

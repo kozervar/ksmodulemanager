@@ -8,6 +8,7 @@ var app = angular.module('app', [
     'ui.router',
     'ui.bootstrap',
     'file-dialog',
+    'app.templates',
     'app.search',
     'app.favourite'
 ]);
@@ -23,8 +24,6 @@ app
     .config(function ($stateProvider, $urlRouterProvider) {
         console.log('Configuring');
 
-        $urlRouterProvider.otherwise('/search');
-
         $stateProvider
             .state('search', {
                 url: '/search',
@@ -35,9 +34,11 @@ app
                 templateUrl: 'partials/favourite.tpl.html'
             })
         ;
+
+        $urlRouterProvider.otherwise('/search');
     })
 
-    .controller('AppCtrl', function AppCtrl() {
+    .controller('AppCtrl', function AppCtrl($scope) {
         console.log('App Ctrl');
     })
 

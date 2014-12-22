@@ -9,7 +9,8 @@ module.exports = {
     app_views : 'src/html/**/*.src.json',
 
     app_files: {
-        js: ['src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js'],
+        js: ['src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js', '!src/**/*.module.js'],
+        module : ['src/**/*.module.js'],
         jsunit: [ 'src/**/*.spec.js' ],
         apptpl: [ 'src/app/**/*.tpl.html' ],
         html: [ 'src/html/*.html' ],
@@ -18,13 +19,16 @@ module.exports = {
 
     vendor_files: {
         js: [
-            'bower_components/jquery/dist/jquery.js',
-            'bower_components/angular/angular.js',
-            'bower_components/storedb/storedb.js',
-            'bower_components/angular-ui-router/release/angular-ui-router.js',
-            'bower_components/angular-bootstrap/ui-bootstrap-tpls.js'
+            'vendor/storedb/storedb.js',
+            'vendor/jquery/dist/jquery.js',
+            'vendor/angular/angular.js',
+            'vendor/storedb/storedb.js',
+            'vendor/angular-ui-router/release/angular-ui-router.js',
+            'vendor/angular-bootstrap/ui-bootstrap-tpls.js'
         ],
         css: [],
-        assets: []
+        assets: [
+            'vendor/font-awesome/fonts/**/*'
+        ]
     }
 };

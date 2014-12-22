@@ -1,18 +1,19 @@
 /**
  * Created by Marcin Kozaczyk on 2014-12-20.
  */
+'use strict';
 
-var module = angular.module('app.search', [
-]);
 
-module
+angular.module('app.search', [])
 
     .controller('SearchCtrl', function SearchCtrl($scope, $http, CONST) {
+        console.log('Search ctrl');
+        var gui = require('nw.gui');
+        var DBHelper = require('./src/module/DBHelper.module');
 
-        console.log("Search ctrl");
         var helper = new DBHelper(storedb);
 
-        $scope.query = "FAR";
+        $scope.query = 'FAR';
         $scope.results = [];
 
         $scope.search = function () {
@@ -44,7 +45,7 @@ module
 
         $scope.addToFavourites = function (mod) {
             helper.create(CONST.COLLECTION.FAVOURITE, mod, function (data) {
-                console.log('Mod "' + mod.name + '" added to favourites!');
+                console.log('Mod [' + mod.name + '] added to favourites!');
             }, function (err) {
                 console.log(err);
             });

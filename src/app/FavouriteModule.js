@@ -6,9 +6,8 @@ angular.module('app.favourite', [
 ])
     .controller('FavouriteCtrl', function FavouriteCtrl($scope, $http, CONST, fileDialog, $timeout) {
 
-        var storedb = require('StoreDB');
-        var DBHelper = require('DBHelper');
-        var fileDownloader = require('FileDownloader');
+        var DBHelper = require('./src/module/DBHelper.module');
+        var fileDownloader = require('./src/module/FileDownloader.module');
 
         console.log('Favourite ctrl');
         var helper = new DBHelper(storedb);
@@ -62,7 +61,8 @@ angular.module('app.favourite', [
                 });
             };
 
-            var options = { workDirectory: (angular.isString($scope.downloadDIR) && $scope.downloadDIR.length > 0 ? $scope.downloadDIR : __dirname )};
+            var currDir = process.cwd();
+            var options = { workDirectory: (angular.isString($scope.downloadDIR) && $scope.downloadDIR.length > 0 ? $scope.downloadDIR : currDir )};
             fileDialog.openDir(function (downloadDIR) {
                 helper.get('settings', {prop: 'download_dir'}, function (data) {
                     console.log('Go', data);

@@ -33,7 +33,7 @@ module.exports = function (grunt) {
             build_app_assets: {
                 files: [
                     {
-                        src: [ '**' ],
+                        src: ['**'],
                         dest: '<%= build_dir %>/assets/',
                         cwd: '<%= src_assets %>',
                         expand: true
@@ -43,7 +43,7 @@ module.exports = function (grunt) {
             build_vendor_assets: {
                 files: [
                     {
-                        src: [ '<%= vendor_files.assets %>' ],
+                        src: ['<%= vendor_files.assets %>'],
                         dest: '<%= build_dir %>/assets/',
                         cwd: '.',
                         expand: true,
@@ -55,7 +55,7 @@ module.exports = function (grunt) {
             build_appjs: {
                 files: [
                     {
-                        src: [ '<%= app_files.js %>' ],
+                        src: ['<%= app_files.js %>', '<%= app_files.module %>'],
                         dest: '<%= build_dir %>/',
                         cwd: '.',
                         expand: true
@@ -65,7 +65,7 @@ module.exports = function (grunt) {
             build_vendorjs: {
                 files: [
                     {
-                        src: [ '<%= vendor_files.js %>' ],
+                        src: ['<%= vendor_files.js %>'],
                         dest: '<%= build_dir %>/',
                         cwd: '.',
                         expand: true
@@ -76,7 +76,7 @@ module.exports = function (grunt) {
             build_vendorcss: {
                 files: [
                     {
-                        src: [ '<%= vendor_files.css %>' ],
+                        src: ['<%= vendor_files.css %>'],
                         dest: '<%= build_dir %>/',
                         cwd: '.',
                         expand: true
@@ -119,7 +119,7 @@ module.exports = function (grunt) {
                     base: 'src/app',
                     module: 'app.templates'
                 },
-                src: [ '<%= app_files.apptpl %>' ],
+                src: ['<%= app_files.apptpl %>'],
                 dest: '<%= build_dir %>/app-templates.js'
             }
         },
@@ -129,6 +129,9 @@ module.exports = function (grunt) {
         jshint: {
             src: [
                 '<%= app_files.js %>'
+            ],
+            module: [
+                '<%= app_files.module %>'
             ],
             test: [
                 '<%= app_files.jsunit %>'
@@ -149,46 +152,47 @@ module.exports = function (grunt) {
             },
             jssrc: {
                 files: [
-                    '<%= app_files.js %>'
+                    '<%= app_files.js %>',
+                    '<%= app_files.module %>'
                 ],
-                tasks: [ 'jshint:src', 'copy:build_appjs' ]
+                tasks: ['jshint:src', 'copy:build_appjs']
             },
             assets: {
                 files: [
                     '<%= src_assets %>/**/*'
                 ],
-                tasks: [ 'copy:build_app_assets', 'copy:build_vendor_assets' ]
+                tasks: ['copy:build_app_assets', 'copy:build_vendor_assets']
             },
             tpls: {
                 files: [
                     '<%= app_files.apptpl %>',
                 ],
-                tasks: [ 'html2js' ]
+                tasks: ['html2js']
             },
             html: {
-                files: [ '<%= app_files.html %>' ],
-                tasks: [ 'buildhtml' ]
+                files: ['<%= app_files.html %>'],
+                tasks: ['buildhtml']
             },
             html_src: {
-                files: [ '<%= app_views %>' ],
-                tasks: [ 'buildhtml' ]
+                files: ['<%= app_views %>'],
+                tasks: ['buildhtml']
             },
             less: {
-                files: [ 'src/**/*.less' ],
-                tasks: [ 'less:build' ]
+                files: ['src/**/*.less'],
+                tasks: ['less:build']
             },
             jsunit: {
                 files: [
                     '<%= app_files.jsunit %>'
                 ],
-                tasks: [ ],
+                tasks: [],
                 options: {
                     livereload: false
                 }
             },
             gruntfile: {
                 files: 'Gruntfile.js',
-                tasks: [ 'jshint:gruntfile' ],
+                tasks: ['jshint:gruntfile'],
                 options: {
                     livereload: false
                 }
@@ -217,8 +221,8 @@ module.exports = function (grunt) {
     ]);
 
     grunt.renameTask('watch', 'delta');
-    grunt.registerTask('watch', [ 'build', 'delta' ]);
-    grunt.registerTask('default', [ 'build' ]);
+    grunt.registerTask('watch', ['build', 'delta']);
+    grunt.registerTask('default', ['build']);
 
 
     grunt.registerMultiTask('buildhtml', 'Building HTML files', function () {
@@ -237,10 +241,15 @@ module.exports = function (grunt) {
             if (!grunt.file.exists(htmlFile)) {
                 throw grunt.util.error('Could not find file ' + htmlFile);
             } else {
-                if(!srcInfo.destination) {
+                if (!srcInfo.destination) {
                     throw grunt.util.error('Destination not set in file ' + file);
                 }
                 var buildName = fileName + '_htmlBuild';
+                var data = {
+                        pkg_version: '<%= pkg.version %>',
+                        pkg_name: '<%= pkg.name %>'
+                };
+                data = grunt.util._.extend(data,srcInfo.data);
                 opts[buildName] = {
                     src: htmlFile,
                     dest: srcInfo.destination,
@@ -250,7 +259,7 @@ module.exports = function (grunt) {
                         scripts: srcInfo.scripts,
                         styles: srcInfo.styles,
                         sections: srcInfo.sections,
-                        data: srcInfo.data
+                        data: data
                     }
                 };
             }

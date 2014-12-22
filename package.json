@@ -1,7 +1,7 @@
 {
     "main": "./build/index.html",
-    "name": "nw-java-process",
-    "description": "Embedding Java process inside node-webkit",
+    "name": "kspmodulemanager",
+    "description": "Kerbal Space Program module manager",
     "version": "0.1.0",
     "keywords": [
         "demo",
@@ -12,7 +12,7 @@
     ],
     "window": {
         "title": "node-webkit demo",
-        "icon": "assets/icon.png",
+        "icon": "./build/assets/rocket.png",
         "toolbar": true,
         "frame": true,
         "width": 800,

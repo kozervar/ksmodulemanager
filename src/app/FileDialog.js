@@ -1,7 +1,7 @@
 /**
  * Created by Marcin Kozaczyk on 2014-12-20.
  */
-
+'use strict';
 
 angular.module('file-dialog', [])
     .factory('fileDialog', [function () {
