@@ -4,7 +4,8 @@
     "description": "Kerbal Space Program module manager",
     "version": "0.1.0",
     "keywords": [
-        "demo",
+        "kerbal space program",
+        "ksp",
         "node-webkit"
     ],
     "authors": [

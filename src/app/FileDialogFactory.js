@@ -3,8 +3,8 @@
  */
 'use strict';
 
-angular.module('file-dialog', [])
-    .factory('fileDialog', [function () {
+angular.module('app.FileDialogFactory', [])
+    .factory('FileDialog', [function () {
         var callDialog = function (dialog, callback) {
             dialog.addEventListener('change', function () {
                 var result = dialog.value;

@@ -2,12 +2,9 @@
  * Created by Marcin Kozaczyk on 2014-12-18.
  */
 'use strict';
-var gui = require('nw.gui');
-
 var app = angular.module('app', [
     'ui.router',
     'ui.bootstrap',
-    'file-dialog',
     'app.templates',
     'app.search',
     'app.favourite'
@@ -15,9 +12,10 @@ var app = angular.module('app', [
 
 app
     .constant('CONST', {
-        KS_URL : 'https://kerbalstuff.com',
-        COLLECTION : {
-            FAVOURITE : 'favourite'
+        KS_URL: 'https://kerbalstuff.com',
+        COLLECTION: {
+            SETTINGS: 'settings',
+            FAVOURITE: 'favourite'
         }
     })
 

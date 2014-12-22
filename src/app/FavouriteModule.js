@@ -3,8 +3,10 @@
  */
 'use strict';
 angular.module('app.favourite', [
+    'app.FileDialogFactory'
 ])
-    .controller('FavouriteCtrl', function FavouriteCtrl($scope, $http, CONST, fileDialog, $timeout) {
+
+    .controller('FavouriteCtrl', function FavouriteCtrl($scope, $http, CONST, FileDialog, $timeout) {
 
         var DBHelper = require('./src/module/DBHelper.module');
         var fileDownloader = require('./src/module/FileDownloader.module');
@@ -51,7 +53,7 @@ angular.module('app.favourite', [
         $scope.changeDownloadDIR = function () {
 
             var createDownloadDir = function (dir) {
-                helper.create('settings', { prop: 'download_dir', value: dir}, function (data) {
+                helper.create(CONST.COLLECTION.SETTINGS, { prop: 'download_dir', value: dir}, function (data) {
                     console.log('Download DIR saved!');
                     $timeout(function () {
                         $scope.downloadDIR = dir;
@@ -63,14 +65,14 @@ angular.module('app.favourite', [
 
             var currDir = process.cwd();
             var options = { workDirectory: (angular.isString($scope.downloadDIR) && $scope.downloadDIR.length > 0 ? $scope.downloadDIR : currDir )};
-            fileDialog.openDir(function (downloadDIR) {
-                helper.get('settings', {prop: 'download_dir'}, function (data) {
+            FileDialog.openDir(function (downloadDIR) {
+                helper.get(CONST.COLLECTION.SETTINGS, {prop: 'download_dir'}, function (data) {
                     console.log('Go', data);
                     if (data.length === 0) { // if settings where cleaned up
                         createDownloadDir(downloadDIR);
                         return;
                     }
-                    helper.update('settings', { prop: 'download_dir' }, { '$set': { value: downloadDIR} }, function (data) {
+                    helper.update(CONST.COLLECTION.SETTINGS, { prop: 'download_dir' }, { '$set': { value: downloadDIR} }, function (data) {
                         console.log('Download DIR updated!');
                         $timeout(function () {
                             $scope.downloadDIR = downloadDIR;
