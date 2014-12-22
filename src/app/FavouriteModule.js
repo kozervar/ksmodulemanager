@@ -8,8 +8,9 @@ angular.module('app.favourite', [
 
         var storedb = require('StoreDB');
         var DBHelper = require('DBHelper');
+        var fileDownloader = require('FileDownloader');
 
-        console.log("Favourite ctrl");
+        console.log('Favourite ctrl');
         var helper = new DBHelper(storedb);
 
         $scope.results = [];
@@ -45,7 +46,7 @@ angular.module('app.favourite', [
                 $scope.refresh();
             }, function (err) {
                 console.log(err);
-            })
+            });
         };
 
         $scope.changeDownloadDIR = function () {
@@ -58,13 +59,13 @@ angular.module('app.favourite', [
                     });
                 }, function (error) {
                     console.log(error);
-                })
+                });
             };
 
             var options = { workDirectory: (angular.isString($scope.downloadDIR) && $scope.downloadDIR.length > 0 ? $scope.downloadDIR : __dirname )};
             fileDialog.openDir(function (downloadDIR) {
                 helper.get('settings', {prop: 'download_dir'}, function (data) {
-                    console.log("Go", data);
+                    console.log('Go', data);
                     if (data.length === 0) { // if settings where cleaned up
                         createDownloadDir(downloadDIR);
                         return;
@@ -76,11 +77,11 @@ angular.module('app.favourite', [
                         });
                     }, function (error) {
                         console.log(error);
-                    })
+                    });
 
                 }, function (error) {
                     createDownloadDir(downloadDIR);
-                })
+                });
             }, options);
         };
 
@@ -88,7 +89,7 @@ angular.module('app.favourite', [
             fileDownloader(fileName, $scope.downloadDIR, function (err, data) {
                 if (err)
                     console.error(err);
-                console.log("File " + data.fileName + " was saved into " + data.path);
+                console.log('File ' + data.fileName + ' was saved into ' + data.path);
             });
         };
 

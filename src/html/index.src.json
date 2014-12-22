@@ -4,7 +4,8 @@
     "destination" : "<%= build_dir %>",
     "scripts" : {
         "context" : ["src/context/index.context.js"],
-        "application" : ["src/**/*.js", "!src/**/*.context.js"]
+        "application" : ["src/**/*.js", "!src/**/*.context.js"],
+        "vendor" : "<%= vendor_files.js %>"
     },
     "styles" : {
         "assets" : ["<%= build_dir %>/assets/*.css"]
