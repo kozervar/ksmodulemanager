@@ -8,6 +8,7 @@ angular.module('app.favourite', [
 
     .controller('FavouriteCtrl', function FavouriteCtrl($scope, $http, CONST, FileDialog, $timeout) {
 
+        var gui = require('nw.gui');
         var DBHelper = require('./src/module/DBHelper.module');
         var fileDownloader = require('./src/module/FileDownloader.module');
 
@@ -42,18 +43,21 @@ angular.module('app.favourite', [
 
 
         $scope.removeFromFavourites = function (mod) {
-            helper.remove(CONST.COLLECTION.FAVOURITE, { id: mod.id}, function () {
-                console.log(mod.name + ' removed from favourites!');
-                $scope.refresh();
-            }, function (err) {
-                console.log(err);
-            });
+            var value = confirm('Remove from favourites?');
+            if (value) {
+                helper.remove(CONST.COLLECTION.FAVOURITE, {id: mod.id}, function () {
+                    console.log(mod.name + ' removed from favourites!');
+                    $scope.refresh();
+                }, function (err) {
+                    console.log(err);
+                });
+            }
         };
 
         $scope.changeDownloadDIR = function () {
 
             var createDownloadDir = function (dir) {
-                helper.create(CONST.COLLECTION.SETTINGS, { prop: 'download_dir', value: dir}, function (data) {
+                helper.create(CONST.COLLECTION.SETTINGS, {prop: 'download_dir', value: dir}, function (data) {
                     console.log('Download DIR saved!');
                     $timeout(function () {
                         $scope.downloadDIR = dir;
@@ -64,7 +68,7 @@ angular.module('app.favourite', [
             };
 
             var currDir = process.cwd();
-            var options = { workDirectory: (angular.isString($scope.downloadDIR) && $scope.downloadDIR.length > 0 ? $scope.downloadDIR : currDir )};
+            var options = {workDirectory: (angular.isString($scope.downloadDIR) && $scope.downloadDIR.length > 0 ? $scope.downloadDIR : currDir )};
             FileDialog.openDir(function (downloadDIR) {
                 helper.get(CONST.COLLECTION.SETTINGS, {prop: 'download_dir'}, function (data) {
                     console.log('Go', data);
@@ -72,7 +76,7 @@ angular.module('app.favourite', [
                         createDownloadDir(downloadDIR);
                         return;
                     }
-                    helper.update(CONST.COLLECTION.SETTINGS, { prop: 'download_dir' }, { '$set': { value: downloadDIR} }, function (data) {
+                    helper.update(CONST.COLLECTION.SETTINGS, {prop: 'download_dir'}, {'$set': {value: downloadDIR}}, function (data) {
                         console.log('Download DIR updated!');
                         $timeout(function () {
                             $scope.downloadDIR = downloadDIR;
@@ -95,9 +99,13 @@ angular.module('app.favourite', [
             });
         };
 
-//        helper.remove('settings', { prop: 'download_dir' }, function () {
-//        }, function () {
-//        });
+        $scope.openUrl = function (mod) {
+            gui.Shell.openExternal(CONST.KS_URL + mod.url);
+        };
+
+        $scope.openWebsite = function (mod) {
+            gui.Shell.openExternal(mod.website);
+        };
 
         // call
         $scope.refresh();

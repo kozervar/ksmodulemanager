@@ -13,16 +13,16 @@
 @media(min-width:768px) {
   #page-wrapper {
     position: inherit;
-    margin: 0 0 0 250px;
+    margin: 0 0 0 50px;
     padding: 0 30px;
-    border-left: 1px solid #e7e7e7;
   }
 }
 @media(min-width:768px) {
   .sidebar {
     z-index: 1;
     position: absolute;
-    width: 250px;
+    width: 50px;
+    border-right: 1px solid #e7e7e7;
   }
 }
 .sidebar .sidebar-nav.navbar-collapse {
@@ -65,4 +65,9 @@
 
 .sidebar .nav-third-level li a {
   padding-left: 52px;
+}
+
+.tooltip-inner {
+  min-width: 100px;
+  max-width: 100%;
 }

@@ -24,13 +24,13 @@
                     <div class="col-sm-4 buttons">
                         <div class="btn-group">
                             <a ng-click="download('https://kerbalstuff.com'+ r.versions[0].download_path)"
-                               class="btn btn-warning btn-sm"><i class="fa fa-floppy-o"></i></a>
+                               class="btn btn-warning btn-sm" tooltip="Download"><i class="fa fa-floppy-o"></i></a>
                             <a ng-click="openUrl(r)"
-                               class="btn btn-info btn-sm" ng-if="r.url"><i class="fa fa-link"></i></a>
+                               class="btn btn-info btn-sm" ng-if="r.url" tooltip="KerbalStuff"><i class="fa fa-link"></i></a>
                             <a ng-click="openWebsite(r)"
-                               class="btn btn-info btn-sm" ng-if="r.website"><i class="fa fa-code"></i></a>
+                               class="btn btn-info btn-sm" ng-if="r.website" tooltip="KSP forum"><i class="fa fa-code"></i></a>
                             <a ng-click="removeFromFavourites(r)"
-                               class="btn btn-danger btn-sm"><i class="fa fa-remove"></i></a>
+                               class="btn btn-danger btn-sm" tooltip="Remove from favourites"><i class="fa fa-remove"></i></a>
                         </div>
                     </div>
                 </div>
