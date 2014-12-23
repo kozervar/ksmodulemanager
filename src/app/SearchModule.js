@@ -9,7 +9,7 @@ angular.module('app.search', [])
     .controller('SearchCtrl', function SearchCtrl($scope, $http, CONST) {
         console.log('Search ctrl');
         var gui = require('nw.gui');
-        var DBHelper = require('./src/module/DBHelper.module');
+        var DBHelper = require(CONST.MODULE_PATH + 'DBHelper.module');
 
         var helper = new DBHelper(storedb);
 

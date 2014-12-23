@@ -1,6 +1,7 @@
-<div class="row" ng-controller="FavouriteCtrl">
+<div class="row" ng-controller="DownloadedCtrl">
     <div class="col-sm-12">
         <p>Download dir: {{downloadDIR}}</p>
+        <div class="btn btn-info" ng-click="changeDownloadDIR()">Change dir</div>
         <hr>
         <div class="mod-container">
             <div class="mod" ng-repeat="r in results">
@@ -21,13 +22,7 @@
                     </div>
                     <div class="col-sm-4 buttons text-right">
                         <div class="btn-group">
-                            <a ng-click="download(r, 'https://kerbalstuff.com'+ r.versions[0].download_path)"
-                               class="btn btn-warning btn-sm" tooltip="Download"><i class="fa fa-floppy-o"></i></a>
-                            <a ng-click="openUrl(r)"
-                               class="btn btn-info btn-sm" ng-if="r.url" tooltip="KerbalStuff"><i class="fa fa-link"></i></a>
-                            <a ng-click="openWebsite(r)"
-                               class="btn btn-info btn-sm" ng-if="r.website" tooltip="KSP forum"><i class="fa fa-code"></i></a>
-                            <a ng-click="removeFromFavourites(r)"
+                            <a ng-click="removeFromDownloaded(r)"
                                class="btn btn-danger btn-sm" tooltip="Remove"><i class="fa fa-remove"></i></a>
                         </div>
                     </div>

@@ -9,8 +9,8 @@ angular.module('app.favourite', [
     .controller('FavouriteCtrl', function FavouriteCtrl($scope, $http, CONST, FileDialog, $timeout) {
 
         var gui = require('nw.gui');
-        var DBHelper = require('./src/module/DBHelper.module');
-        var fileDownloader = require('./src/module/FileDownloader.module');
+        var DBHelper = require(CONST.MODULE_PATH + 'DBHelper.module');
+        var fileDownloader = require(CONST.MODULE_PATH + 'FileDownloader.module');
 
         console.log('Favourite ctrl');
         var helper = new DBHelper(storedb);
@@ -30,7 +30,7 @@ angular.module('app.favourite', [
                     console.log(err);
             }
             try {
-                helper.get('settings', {prop: 'download_dir'}, function (data) {
+                helper.get(CONST.COLLECTION.SETTINGS, {prop: 'download_dir'}, function (data) {
                     $scope.downloadDIR = data[0].value;
                 }, function (err) {
                     console.log(err);
@@ -54,48 +54,43 @@ angular.module('app.favourite', [
             }
         };
 
-        $scope.changeDownloadDIR = function () {
-
-            var createDownloadDir = function (dir) {
-                helper.create(CONST.COLLECTION.SETTINGS, {prop: 'download_dir', value: dir}, function (data) {
-                    console.log('Download DIR saved!');
-                    $timeout(function () {
-                        $scope.downloadDIR = dir;
-                    });
-                }, function (error) {
-                    console.log(error);
-                });
-            };
-
-            var currDir = process.cwd();
-            var options = {workDirectory: (angular.isString($scope.downloadDIR) && $scope.downloadDIR.length > 0 ? $scope.downloadDIR : currDir )};
-            FileDialog.openDir(function (downloadDIR) {
-                helper.get(CONST.COLLECTION.SETTINGS, {prop: 'download_dir'}, function (data) {
-                    console.log('Go', data);
-                    if (data.length === 0) { // if settings where cleaned up
-                        createDownloadDir(downloadDIR);
-                        return;
-                    }
-                    helper.update(CONST.COLLECTION.SETTINGS, {prop: 'download_dir'}, {'$set': {value: downloadDIR}}, function (data) {
-                        console.log('Download DIR updated!');
-                        $timeout(function () {
-                            $scope.downloadDIR = downloadDIR;
-                        });
-                    }, function (error) {
-                        console.log(error);
-                    });
-
-                }, function (error) {
-                    createDownloadDir(downloadDIR);
-                });
-            }, options);
-        };
-
-        $scope.download = function (fileName) {
+        $scope.download = function (mod, fileName) {
             fileDownloader(fileName, $scope.downloadDIR, function (err, data) {
                 if (err)
                     console.error(err);
                 console.log('File ' + data.fileName + ' was saved into ' + data.path);
+                mod.file = data;
+
+                helper.get(CONST.COLLECTION.DOWNLOADED, {id: mod.id}, function (data) {
+                    if (data.length > 0) {
+                        // update existing download
+                        helper.update(CONST.COLLECTION.DOWNLOADED, {_id: mod._id}, {'$set': mod}, function (data) {
+                            console.log('Mod [' + mod.name + '] in download list updated!');
+                        }, function (error) {
+                            console.log(error);
+                        });
+                    } else {
+                        // create new download
+                        helper.create(CONST.COLLECTION.DOWNLOADED, mod, function (data) {
+                            console.log('Mod [' + mod.name + '] added to downloaded!');
+                        }, function (error) {
+                            console.log(error);
+                        });
+                    }
+
+                }, function (err) {
+                    if (err === 'collection not exist') {
+                        // Create first download3
+                        helper.create(CONST.COLLECTION.DOWNLOADED, mod, function (data) {
+                            console.log('Mod [' + mod.name + '] added to downloaded!');
+                        }, function (error) {
+                            console.log(error);
+                        });
+                    } else {
+                        console.log(err);
+                    }
+                });
+
             });
         };
 
